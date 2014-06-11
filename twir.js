@@ -118,6 +118,11 @@ function getPrsForMerges(merges) {
   for (var i = 0; i < merges.length; ++i) {
     var merge = merges[i];
     var pr_num = merges[i].pull_request_num;
+    if (mergesByPrNum[pr_num]) {
+      // if a new pr landed while we're between pages...?
+      merges.splice(pr_num, i--);
+      continue;
+    }
     mergesByPrNum[pr_num] = merge;
     if (!lowest || pr_num < lowest)
       lowest = pr_num;
